@@ -13,3 +13,14 @@ datasource db {
   url      = env("MONGO_URL")
 }
 
+model Admin{
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  username     String    @unique
+  password     String    
+  companyName  String
+  firstName    String
+  lastName     String
+  emailId      String   @unique
+  phoneNumber  Int   
+  createdAt    DateTime       @default(now())
+}

@@ -22,7 +22,6 @@ export const CreateUser = async (data: {
   phoneNumber: number;
   isAdmin: boolean;
 }) => {
-  console.log(data.password);
 
   const newUser = await prisma.userDetails.create({
     data: {
@@ -38,3 +37,14 @@ export const CreateUser = async (data: {
   });
   return newUser;
 };
+
+export const LogUserLogin = async (username: string, token: string) => {
+  const loginLog = await prisma.loginLogs.create({
+    data: {
+      username,
+      token
+    },
+  });
+
+  return loginLog;
+}

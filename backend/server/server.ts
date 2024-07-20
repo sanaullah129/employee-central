@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import bodyParser from "body-parser";
 import connectDb from './db';
+import userRoutes from "./routes/UserRoutes";
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ app.use(cors());
 app.get("/", (req, res) => {
     res.send("Your backend-server is running");
 });
+
+app.use("/api/user", userRoutes);
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

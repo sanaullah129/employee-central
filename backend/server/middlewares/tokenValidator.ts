@@ -16,7 +16,7 @@ const validateToken = (req: RequestProps, res: Response, next: NextFunction) => 
     token = authHeader.split(" ")[1];
     jwt.verify(
       token,
-      process.env.JWT_TOKEN as string,
+      process.env.JWT_SECRET as string,
       (err: any, decoded: any) => {
         if (err) {
           console.log("Jwt Authentication Error: " + err);

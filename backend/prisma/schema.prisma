@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,6 +7,24 @@ datasource db {
   url      = env("MONGO_URL")
 }
 
+model UserDetails {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  username    String   @unique
+  password    String
+  companyName String
+  firstName   String
+  lastName    String
+  emailId     String   @unique
+  phoneNumber Int
+  createdAt   DateTime @default(now())
+  isAdmin     Boolean
+}
+
+model LoginLogs {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  username   String
+  token      String
+  loggedinAt DateTime @default(now())
 model UserDetails {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   username    String    @unique

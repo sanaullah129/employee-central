@@ -18,6 +18,7 @@ model UserDetails {
   phoneNumber Int
   createdAt   DateTime @default(now())
   isAdmin     Boolean
+  profiles    Profile[]
 }
 
 model LoginLogs {
@@ -25,18 +26,6 @@ model LoginLogs {
   username   String
   token      String
   loggedinAt DateTime @default(now())
-model UserDetails {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  username    String    @unique
-  password    String
-  companyName String
-  firstName   String
-  lastName    String
-  emailId     String    @unique
-  phoneNumber Int
-  createdAt   DateTime  @default(now())
-  isAdmin     Boolean
-  profiles    Profile[]
 }
 
 // Employee Profile Info

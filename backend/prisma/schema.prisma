@@ -18,6 +18,7 @@ model UserDetails {
   phoneNumber Int
   createdAt   DateTime @default(now())
   isAdmin     Boolean
+  profiles    Profile[]
 }
 
 model LoginLogs {
@@ -25,4 +26,37 @@ model LoginLogs {
   username   String
   token      String
   loggedinAt DateTime @default(now())
+}
+
+// Employee Profile Info
+model Profile {
+  id                    String      @id @default(auto()) @map("_id") @db.ObjectId
+  employeeId            Int         @unique
+  name                  String
+  companyEmail          String
+  contact               BigInt
+  location              String
+  bloodGroup            String?
+  dateOfBirth           String
+  nationality           String?
+  maritialStatus        String?
+  marriageDate          String?
+  spouse                String?
+  placeOfBirth          String?
+  residentialStatus     String?
+  fatherName            String
+  religion              String?
+  physicallyChallenged  String
+  internationalEmployee Boolean
+  userDetailsId         String      @db.ObjectId
+  userDetails           UserDetails @relation(fields: [userDetailsId], references: [id])
+  addresses             Address[]
+}
+
+model Address {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  address    String
+  adressType String
+  profileId  String  @db.ObjectId
+  profile    Profile @relation(fields: [profileId], references: [id])
 }

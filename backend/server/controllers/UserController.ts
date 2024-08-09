@@ -74,37 +74,35 @@ export const loginUser = async (req: Request, res: Response) => {
 
   const existingUser = await IsUserAvailableCheck(username);
 
-  if (!existingUser) {
-    return res.status(404).json({ statusId: 1, status: "No User with this username found" });
-  }
-
-  let isPasswordCorrect: boolean = false;
+    if(!existingUser){
+        return res.status(404).json({statusId: 1, status: "No User with this username found"});
+    }
+    let isPasswordCorrect: boolean = false;
 
   if (existingUser) {
     isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
   }
 
-  if (existingUser && isPasswordCorrect) {
-    const jwtSecret = process.env.JWT_SECRET as string;
+    if(existingUser && isPasswordCorrect){
+        const jwtSecret = process.env.JWT_TOKEN as string;
 
-    if (jwtSecret) {
-      // jwt token generation
-      const token: string = jwt.sign(
-        {
-          username: existingUser.username,
-          password: existingUser.password,
-          id: existingUser.id,
-        },
-        jwtSecret,
-        { expiresIn: "1d" }
-      );
+        if (jwtSecret) {
+            //jwt token
+            const token: string = jwt.sign(
+              {
+                username: existingUser.username,
+                password: existingUser.password,
+                id: existingUser.id,
+              },
+              jwtSecret,
+              { expiresIn: "1d" }
+            );    
+            res.json({ Bearer: token });
+          }
 
-      await LogUserLogin(username, token);
-      return res.json({ Bearer: token });
-    } else {
-      return res.status(500).json({ statusId: 3, status: "JWT secret not set" });
     }
-  } else {
-    return res.status(401).json({ statusId: 2, status: "Invalid Username and Password Combination" });
-  }
+    else{
+        res.status(401).json({statusId: 2, status: "Invalid Username and Password Combination"});
+    }
+
 };
